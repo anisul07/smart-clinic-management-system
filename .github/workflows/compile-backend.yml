@@ -1,0 +1,29 @@
+name: Compile Java Backend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compile Java files
+        run: |
+          find app/src/main/java -name "*.java" > sources.txt
+          mkdir -p build/classes
+          javac -d build/classes @sources.txt
