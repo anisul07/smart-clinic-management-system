@@ -1,9 +1,13 @@
 package com.project.back_end.models;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Doctor {
@@ -15,6 +19,9 @@ public class Doctor {
     private String name;
     private String speciality;
     private String availableTime;
+
+    @ElementCollection
+    private List<String> availableTimes = new ArrayList<>();
 
     public Doctor() {
     }
@@ -55,5 +62,13 @@ public class Doctor {
 
     public void setAvailableTime(String availableTime) {
         this.availableTime = availableTime;
+    }
+
+    public List<String> getAvailableTimes() {
+        return availableTimes;
+    }
+
+    public void setAvailableTimes(List<String> availableTimes) {
+        this.availableTimes = availableTimes;
     }
 }
