@@ -4,6 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Appointment {
@@ -12,18 +18,27 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long doctorId;
-    private Long patientId;
-    private String appointmentTime;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    @NotNull
+    @Future
+    private LocalDateTime appointmentTime;
+
     private String status;
 
     public Appointment() {
     }
 
-    public Appointment(Long doctorId, Long patientId,
-                        String appointmentTime, String status) {
-        this.doctorId = doctorId;
-        this.patientId = patientId;
+    public Appointment(Doctor doctor, Patient patient,
+                        LocalDateTime appointmentTime, String status) {
+        this.doctor = doctor;
+        this.patient = patient;
         this.appointmentTime = appointmentTime;
         this.status = status;
     }
@@ -36,27 +51,27 @@ public class Appointment {
         this.id = id;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public Long getPatientId() {
-        return patientId;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    public String getAppointmentTime() {
+    public LocalDateTime getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(String appointmentTime) {
+    public void setAppointmentTime(LocalDateTime appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
 
