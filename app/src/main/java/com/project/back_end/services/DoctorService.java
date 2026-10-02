@@ -1,31 +1,35 @@
 package com.project.back_end.services;
 
 import com.project.back_end.models.Doctor;
+import com.project.back_end.repo.DoctorRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
 
-    private final List<Doctor> doctors = new ArrayList<>();
+    private final DoctorRepository doctorRepository;
+
+    public DoctorService(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
 
     public List<Doctor> getAllDoctors() {
-        return doctors;
+        return doctorRepository.findAll();
     }
 
     public Doctor getDoctorById(Long id) {
-        for (Doctor doctor : doctors) {
-            if (doctor.getId() != null && doctor.getId().equals(id)) {
-                return doctor;
-            }
-        }
-        return null;
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        return doctor.orElse(null);
     }
 
     public Doctor addDoctor(Doctor doctor) {
-        doctors.add(doctor);
-        return doctor;
+        return doctorRepository.save(doctor);
+    }
+
+    public List<Doctor> getDoctorsBySpeciality(String speciality) {
+        return doctorRepository.findBySpeciality(speciality);
     }
 }
