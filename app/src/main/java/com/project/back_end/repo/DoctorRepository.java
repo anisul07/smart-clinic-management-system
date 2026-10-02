@@ -8,4 +8,6 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     List<Doctor> findBySpeciality(String speciality);
+
+    Doctor findByEmail(String email);
 }
