@@ -21,9 +21,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: maven
 
-      - name: Compile Java files
-        run: |
-          find app/src/main/java -name "*.java" > sources.txt
-          mkdir -p build/classes
-          javac -d build/classes @sources.txt
+      - name: Compile with Maven
+        run: mvn -B clean compile
