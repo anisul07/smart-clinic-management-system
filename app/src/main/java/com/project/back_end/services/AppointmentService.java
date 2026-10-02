@@ -1,46 +1,33 @@
 package com.project.back_end.services;
 
 import com.project.back_end.models.Appointment;
+import com.project.back_end.repo.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AppointmentService {
 
-    private final List<Appointment> appointments = new ArrayList<>();
+    private final AppointmentRepository appointmentRepository;
+
+    public AppointmentService(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
+    }
 
     public List<Appointment> getAllAppointments() {
-        return appointments;
+        return appointmentRepository.findAll();
     }
 
     public Appointment addAppointment(Appointment appointment) {
-        appointments.add(appointment);
-        return appointment;
+        return appointmentRepository.save(appointment);
     }
 
     public List<Appointment> getAppointmentsByPatient(Long patientId) {
-        List<Appointment> result = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getPatientId().equals(patientId)) {
-                result.add(appointment);
-            }
-        }
-
-        return result;
+        return appointmentRepository.findByPatientId(patientId);
     }
 
     public List<Appointment> getAppointmentsByDoctor(Long doctorId) {
-        List<Appointment> result = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId)) {
-                result.add(appointment);
-            }
-        }
-
-        return result;
+        return appointmentRepository.findByDoctorId(doctorId);
     }
 }
